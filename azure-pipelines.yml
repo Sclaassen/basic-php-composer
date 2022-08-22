@@ -23,14 +23,21 @@ steps:
   displayName: 'Use PHP version $(phpVersion)'
 
 - script: composer install --no-interaction --prefer-dist
+  workingDirectory: '$(rootFolder)'
   displayName: 'composer install'
 
-- task: PublishBuildArtifacts@1
 
+
+- task: ArchiveFiles@2
+  displayName: 'Archive files'
   inputs:
+        rootFolderOrFile: '$(rootFolder)'
+        includeRootFolder: false
+        archiveType: zip
+        archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+        replaceExistingArchive: true
 
-    PathtoPublish: '$(System.DefaultWorkingDirectory)'
+- publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+  displayName: 'Upload package'
+  artifact: drop
 
-    ArtifactName: 'Build'
-
-    publishLocation: 'Container'
