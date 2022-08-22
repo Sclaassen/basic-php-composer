@@ -11,6 +11,17 @@ pool:
 
 variables:
   phpVersion: 7.2
+# Azure Resource Manager connection created during pipeline creation
+  azureSubscription: 'subscription-id'
+ # Web app name
+  webAppName: 'web-app-name'
+  # Agent VM image name
+  vmImageName: 'ubuntu-latest'
+  # Environment name
+  environmentName: 'environment-name'
+  # Root folder under which your composer.json file is available.
+  rootFolder: $(System.DefaultWorkingDirectory)
+
 
 steps:
 - script: |
@@ -38,4 +49,6 @@ steps:
 - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
   displayName: 'Upload package'
   artifact: drop
+
+
 
